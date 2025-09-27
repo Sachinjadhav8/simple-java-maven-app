@@ -17,7 +17,7 @@
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>maven-releases</id> <!-- Must match Jenkins credentials ID -->
+      <id>nexus-credentials-id</id> <!-- Must match Jenkins credentials ID -->
       <name>maven-releases</name>
       <url>http://65.2.189.72:8081/repository/maven-releases/</url>
     </repository>
