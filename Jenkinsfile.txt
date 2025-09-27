@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.9.11'
+        jdk 'Java-17' // ensure this matches your project Java version
+    }
+
+    environment {
+        NEXUS_URL = 'http://65.2.189.72:8081/repository/maven-releases1/'
+        NEXUS_CREDENTIALS = 'nexus-credentials-id' // Jenkins credentials ID
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/Sachinjadhav8/simple-java-maven-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS}",
+                                                 usernameVariable: 'NEXUS_USER',
+                                                 passwordVariable: 'NEXUS_PASS')]) {
+                    sh """
+                        mvn deploy \
+                        -DaltDeploymentRepository=nexus::default::${NEXUS_URL} \
+                        -Dnexus.username=$NEXUS_USER \
+                        -Dnexus.password=$NEXUS_PASS
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
+    }
+}
