@@ -17,10 +17,15 @@
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>admin</id>
+      <id>15688be0-1b48-408b-b396-30ca1cf8eb61</id> <!-- Must match Jenkins credentials ID -->
       <name>maven-releases</name>
       <url>http://65.2.189.72:8081/repository/maven-releases/</url>
     </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Nexus Snapshots</name>
+      <url>http://65.2.189.72:8081/repository/maven-snapshots/</url>
+    </snapshotRepository>
   </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
